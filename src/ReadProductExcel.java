@@ -7,12 +7,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class ReadProductExcel {
-    public Product[] readExcel(File file) {
+    public Product[] readExcel(InputStream inProduct) {
         Product products[] = null;
         try {
-            XSSFWorkbook xw = new XSSFWorkbook(new FileInputStream(file));
+            XSSFWorkbook xw = new XSSFWorkbook(inProduct);
             XSSFSheet xs = xw.getSheetAt(0);
             products = new Product[xs.getLastRowNum()];
             for (int j = 1; j <= xs.getLastRowNum(); j++) {
@@ -41,10 +42,10 @@ public class ReadProductExcel {
         return products;
     }
 
-    public Product getProduct(File file,String id)
+    public Product getProduct(InputStream inProduct,String id)
     {
         try {
-            XSSFWorkbook xw = new XSSFWorkbook(new FileInputStream(file));
+            XSSFWorkbook xw = new XSSFWorkbook(inProduct);
             XSSFSheet xs = xw.getSheetAt(0);
             for (int j = 1; j <= xs.getLastRowNum(); j++) {
                 XSSFRow row = xs.getRow(j);

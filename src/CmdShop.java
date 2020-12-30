@@ -3,18 +3,16 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class CmdShop {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException {
         int bag_max=5;
         int count=0;
         boolean flag=true;
-        String cName="CmdShop";
-        //InputStream inUser=Class.forName("CmdShop."+cName).getResourceAsStream("/users.xlsx");
-        File file=new File("C:\\Users\\lenovo\\Desktop\\CmdShop\\src\\users.xlsx");
-        File pfile=new File("C:\\Users\\lenovo\\Desktop\\CmdShop\\src\\product.xlsx");
+        InputStream inUser = Class.forName("CmdShop").getResourceAsStream("/users.xlsx");
+        InputStream inProduct = Class.forName("CmdShop").getResourceAsStream("/product.xlsx");
         ReadExcel readExcel=new ReadExcel();
         ReadProductExcel readProductExcel=new ReadProductExcel();
-        User[] users=readExcel.readExcel(file);
-        Product[] products=readProductExcel.readExcel(pfile);
+        User[] users=readExcel.readExcel(inUser);
+        Product[] products=readProductExcel.readExcel(inProduct);
         Product[] bag=new Product[bag_max];
 
         String username;
@@ -48,9 +46,10 @@ public class CmdShop {
                         }
                         System.out.println("请输入商品ID把该商品加入购物车中");
                         String id=sc.next();
-                        Product product=readProductExcel.getProduct(pfile,id);
+                        Product product=readProductExcel.getProduct(inProduct,id);
                         if(product!=null)
                         {
+                            System.out.println("您加入购物车的商品价格为:"+product.getPrice());
                             bag[count]=product;
                             count++;
                             System.out.println("继续购物请输入1，查看购物车请输入2");
@@ -67,10 +66,13 @@ public class CmdShop {
                                 System.out.println("\t"+"商品描述");
                                 for(Product t_product:bag)
                                 {
-                                    System.out.print(t_product.getpId());
-                                    System.out.print("\t"+t_product.getpName());
-                                    System.out.print("\t"+t_product.getPrice());
-                                    System.out.println("\t"+t_product.getpDescr());
+                                    if(t_product!=null)
+                                    {
+                                        System.out.print(t_product.getpId());
+                                        System.out.print("\t"+t_product.getpName());
+                                        System.out.print("\t"+t_product.getPrice());
+                                        System.out.println("\t"+t_product.getpDescr());
+                                    }
                                 }
                             }
                             else
