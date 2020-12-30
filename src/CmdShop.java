@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class CmdShop {
     public static void main(String[] args) {
+        int bag_max=5;
+        int count=0;
         boolean flag=true;
         String cName="CmdShop";
         //InputStream inUser=Class.forName("CmdShop."+cName).getResourceAsStream("/users.xlsx");
@@ -13,7 +15,7 @@ public class CmdShop {
         ReadProductExcel readProductExcel=new ReadProductExcel();
         User[] users=readExcel.readExcel(file);
         Product[] products=readProductExcel.readExcel(pfile);
-        Product[] bag=new Product[5];
+        Product[] bag=new Product[bag_max];
 
         String username;
         String password;
@@ -30,20 +32,59 @@ public class CmdShop {
                 {
                     System.out.println("登陆成功");
                     flag=false;
-                    for(Product product:products)
+                    for (;;)
                     {
-                        System.out.print(product.getpId());
-                        System.out.print("\t"+product.getpName());
-                        System.out.print("\t"+product.getPrice());
-                        System.out.println("\t"+product.getpDescr());
-                    }
-                    System.out.println("请输入商品ID把该商品加入购物车中");
-                    String id=sc.next();
-                    Product product=readProductExcel.getProduct(pfile,id);
-                    if(product!=null)
-                    {
+                        int choose;
+                        System.out.print("商品id");
+                        System.out.print("\t"+"商品名称");
+                        System.out.print("\t"+"商品价格");
+                        System.out.println("\t"+"商品描述");
+                        for(Product product:products)
+                        {
+                            System.out.print(product.getpId());
+                            System.out.print("\t"+product.getpName());
+                            System.out.print("\t"+product.getPrice());
+                            System.out.println("\t"+product.getpDescr());
+                        }
+                        System.out.println("请输入商品ID把该商品加入购物车中");
+                        String id=sc.next();
+                        Product product=readProductExcel.getProduct(pfile,id);
+                        if(product!=null)
+                        {
+                            bag[count]=product;
+                            count++;
+                            System.out.println("继续购物请输入1，查看购物车请输入2");
+                            choose=sc.nextInt();
+                            if(choose==1)
+                            {
+                                continue;
+                            }
+                            else if (choose==2)
+                            {
+                                System.out.print("商品id");
+                                System.out.print("\t"+"商品名称");
+                                System.out.print("\t"+"商品价格");
+                                System.out.println("\t"+"商品描述");
+                                for(Product t_product:bag)
+                                {
+                                    System.out.print(t_product.getpId());
+                                    System.out.print("\t"+t_product.getpName());
+                                    System.out.print("\t"+t_product.getPrice());
+                                    System.out.println("\t"+t_product.getpDescr());
+                                }
+                            }
+                            else
+                            {
+                                System.out.println("请输入正确的编号以进行下一步操作");
+                            }
 
+                        }
+                        else
+                        {
+                            System.out.println("该商品不存在，请输入正确的商品id");
+                        }
                     }
+
                 }
                 else if(i==users.length-1)
                 {
