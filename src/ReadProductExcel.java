@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 
 public class ReadProductExcel {
     public Product[] readExcel(InputStream inProduct) {
@@ -77,7 +78,7 @@ public class ReadProductExcel {
     private String getValue(XSSFCell cell) {
         String value;
         CellType type = cell.getCellTypeEnum();
-
+        DecimalFormat df = new DecimalFormat("#");
         switch (type) {
             case STRING:
                 value = cell.getStringCellValue();
@@ -89,7 +90,7 @@ public class ReadProductExcel {
                 value = cell.getBooleanCellValue() + "";
                 break;
             case NUMERIC:
-                value = cell.getNumericCellValue() + "";
+                value = df.format(cell.getNumericCellValue());
                 break;
             case FORMULA:
                 value = cell.getCellFormula();
