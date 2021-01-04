@@ -3,6 +3,7 @@ public class Product {
     private String pName;
     private String Price;
     private String pDescr;
+    private int ShangPinShuLiang=0;
 
     public void setpId(String pId) {
         this.pId = pId;
@@ -20,6 +21,10 @@ public class Product {
         this.pDescr = pDescr;
     }
 
+    public void setShangPinShuLiang(int shangPinShuLiang) {
+        ShangPinShuLiang = shangPinShuLiang;
+    }
+
     public String getpId() {
         return pId;
     }
@@ -34,5 +39,9 @@ public class Product {
 
     public String getpDescr() {
         return pDescr;
+    }
+
+    public int getShangPinShuLiang() {
+        return ShangPinShuLiang;
     }
 }

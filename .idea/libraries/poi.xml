@@ -1,12 +1,10 @@
 <component name="libraryTable">
   <library name="poi">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../poi" />
-      <root url="file://$USER_HOME$/Desktop/poi" />
+      <root url="file://$PROJECT_DIR$/src/poi" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
-    <jarDirectory url="file://$USER_HOME$/Desktop/poi" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../poi" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/src/poi" recursive="false" />
   </library>
 </component>

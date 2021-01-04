@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class CmdShop {
+    static Scanner sc=new Scanner(System.in);
     public static void main(String[] args) throws ClassNotFoundException {
         int bag_max=5;
         int count=0;
@@ -14,6 +15,7 @@ public class CmdShop {
         ReadExcel readExcel=new ReadExcel();
         ReadProductExcel readProductExcel=new ReadProductExcel();
         User[] users=readExcel.readExcel(inUser);
+        User user;
         Product[] products=readProductExcel.readExcel(inProduct);
         Product[] bag=new Product[bag_max];
 
@@ -22,30 +24,24 @@ public class CmdShop {
 
         for(;flag;)
         {
-            Scanner sc=new Scanner(System.in);
-            //System.out.println("请输入用户名");
-            //username=sc.next();
-            //System.out.println("请输入密码");
-            //password=sc.next();
+            System.out.println("请输入用户名");
+            username=sc.next();
+            System.out.println("请输入密码");
+            password=sc.next();
             for (int i=0;i<users.length;i++)
             {
-                if(true/*users[i].getUsername().equals(username)&&users[i].getPassword().equals(password)*/)
+                if(users[i].getUsername().equals(username)&&users[i].getPassword().equals(password))
                 {
+                    user=users[i];
                     System.out.println("登陆成功");
                     flag=false;
                     for (;;)
                     {
                         int choose;
-                        System.out.print("商品id");
-                        System.out.print("\t"+"商品名称");
-                        System.out.print("\t"+"商品价格");
-                        System.out.println("\t"+"商品描述");
+                        info_Headline();
                         for(Product product:products)
                         {
-                            System.out.print(product.getpId());
-                            System.out.print("\t"+product.getpName());
-                            System.out.print("\t"+product.getPrice());
-                            System.out.println("\t"+product.getpDescr());
+                            info_Product(product);
                         }
                         System.out.println("请输入商品ID把该商品加入购物车中");
                         String id=sc.next();
@@ -69,10 +65,7 @@ public class CmdShop {
                             }
                             else if (choose==2)
                             {
-                                System.out.print("商品id");
-                                System.out.print("\t"+"商品名称");
-                                System.out.print("\t"+"商品价格");
-                                System.out.println("\t"+"商品描述");
+                                info_Headline();
                                 for(Product t_product:bag)
                                 {
                                     if(!R)
@@ -82,10 +75,7 @@ public class CmdShop {
                                     }
                                     if(t_product!=null)
                                     {
-                                        System.out.print(t_product.getpId());
-                                        System.out.print("\t"+t_product.getpName());
-                                        System.out.print("\t"+t_product.getPrice());
-                                        System.out.println("\t"+t_product.getpDescr());
+                                       info_Product(t_product);
                                     }
                                     System.out.println("继续购物请输入1，付款请输入2");
                                     for(;;)
@@ -98,7 +88,36 @@ public class CmdShop {
                                         }
                                         else if (re==2)
                                         {
-
+                                            boolean f=false;
+                                            int x=1;
+                                            Order order=new Order();
+                                            order.setProducts(bag);
+                                            order.setUser(user);
+                                            for(Product product1 :bag)
+                                            {
+                                                if (order.getProducts()==null)
+                                                {
+                                                    order.getProducts()[0]=product1;
+                                                    order.getProducts()[0].setShangPinShuLiang(order.getShangPinShuLiang()+1);
+                                                }
+                                                else
+                                                {
+                                                    for(Product product2:order.getProducts())
+                                                    {
+                                                        if (product1.getpId()==product2.getpId())
+                                                        {
+                                                            product2.setShangPinShuLiang(product2.getShangPinShuLiang() + 1);
+                                                            f=true;
+                                                        }
+                                                    }
+                                                    if (f==false)
+                                                    {
+                                                        order.getProducts()[x]=product1;
+                                                        order.getProducts()[x].setShangPinShuLiang(order.getShangPinShuLiang()+1);
+                                                    }
+                                                }
+                                            }
+                                            System.exit(0);
                                         }
                                         else
                                             System.out.println("请输入正确的编号以进行下一步操作");
@@ -125,5 +144,23 @@ public class CmdShop {
             }
         }
 
+    }
+    public static void shopping()
+    {
+
+    }
+    public static void info_Headline()
+    {
+        System.out.print("商品id");
+        System.out.print("\t"+"商品名称");
+        System.out.print("\t"+"商品价格");
+        System.out.println("\t"+"商品描述");
+    }
+    public static void info_Product(Product product)
+    {
+        System.out.print(product.getpId());
+        System.out.print("\t"+product.getpName());
+        System.out.print("\t"+product.getPrice());
+        System.out.println("\t"+product.getpDescr());
     }
 }
